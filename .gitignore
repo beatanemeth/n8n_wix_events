@@ -1,0 +1,12 @@
+# Ignore everything by default
+/*
+
+# Allow root files
+!.gitignore
+!README.md
+
+# Allow everything inside specific directories recursively
+!stripe_microservice/
+
+# Re-ignore .env files anywhere
+*.env

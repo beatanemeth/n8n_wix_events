@@ -1,0 +1,6 @@
+# This file lists the Python packages required to run the FastAPI application.
+# pip installs these dependencies when building the Docker image.
+fastapi
+uvicorn
+stripe
+python-dotenv
