@@ -18,4 +18,10 @@ The n8n workflow was extended to handle more logic branches and conditions, sign
 
 Where Wix Automations originally handled the form data transfer to Google Sheets, this part introduces a custom Python script to fetch data directly from the Wix backend. This reduced the number of required Wix Automations and gave us more control and flexibility.
 
+## 📂 Repo Overview
+
+- `stripe_microservice`: This `FastAPI service for fetching Stripe paid sessions` is a foundational component and is utilized **across all three parts** of the series for consistent payment data integration.
+- `events-v2` **folder**: Contains code **explicitly used only in the setup described in Part 2**, focusing on early enhancements and specific Wix Velo interactions for that phase.
+- **Part 1**: The initial setup for Part 1 relies solely on basic n8n functionalities and Wix Automations. Therefore, **no additional custom code** is specifically provided in a dedicated folder for this part.
+
 Each sub-folder within this repository contains its own, detailed `README.md` file, providing in-depth information about that specific component and its setup.

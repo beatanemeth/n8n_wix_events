@@ -6,6 +6,7 @@
 !README.md
 
 # Allow everything inside specific directories recursively
+!events-v2
 !stripe_microservice/
 
 # Re-ignore .env files anywhere
