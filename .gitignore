@@ -7,6 +7,7 @@
 
 # Allow everything inside specific directories recursively
 !events-v2
+!events-v3
 !stripe_microservice/
 
 # Re-ignore .env files anywhere

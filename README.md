@@ -20,8 +20,52 @@ Where Wix Automations originally handled the form data transfer to Google Sheets
 
 ## 📂 Repo Overview
 
+```bash
+.
+├── events-v2                   # 📂 Code specific to Part 2's enhancements
+│   ├── assets
+│   │   ├── wix-automation-run-velo-code-v1.png
+│   │   ├── wix-automation-run-velo-code-v2.png
+│   │   ├── wix-automation-send-http-request-configuration.png
+│   │   └── wix-automation-send-http-request.png
+│   └── wixVeloCode             # Wix Velo backend code for Part 2
+│       ├── README.md           # Documentation for Wix Velo code (Part 2)
+│       ├── wixAutomationCase1a
+│       │   ├── runVeloCodeAutomationAction.js
+│       │   └── runVeloCodeBackend.web.js
+│       ├── wixAutomationCase1b
+│       │   ├── runVeloCodeAutomationAction.js
+│       │   └── runVeloCodeBackend.web.js
+│       └── wixAutomationCase2
+│           └── post_findRsvpContactById.js
+├── events-v3                   # 📂 Code specific to Part 3's advanced features
+│   ├── jwt_microservice        # FastAPI service for JWT generation
+│   │   ├── app
+│   │   │   ├── jwt_utils.py
+│   │   │   └── main.py
+│   │   ├── Dockerfile
+│   │   ├── README.md           # Documentation for JWT microservice
+│   │   └── requirements.txt
+│   └── wixVeloCode             # Wix Velo backend code for Part 3
+│       ├── eventGuestService.web.js
+│       ├── eventGuests.js
+│       ├── http-functions.js
+│       ├── README.md           # Documentation for Wix Velo code (Part 3)
+│       └── util.web.js
+├── README.md                   # This overview file
+└── stripe_microservice         # 💳 FastAPI service for Stripe data fetching
+    ├── app
+    │   ├── main.py
+    │   └── stripe_fetcher.py
+    ├── Dockerfile
+    ├── README.md               # Documentation for Stripe microservice
+    └── requirements.txt
+
+```
+
 - `stripe_microservice`: This `FastAPI service for fetching Stripe paid sessions` is a foundational component and is utilized **across all three parts** of the series for consistent payment data integration.
 - `events-v2` **folder**: Contains code **explicitly used only in the setup described in Part 2**, focusing on early enhancements and specific Wix Velo interactions for that phase.
+- `events-v3` **folder**: Contains code **explicitly used only in the setup described in Part 3**, showcasing advanced integrations like the JWT microservice and refined Wix Velo interactions.
 - **Part 1**: The initial setup for Part 1 relies solely on basic n8n functionalities and Wix Automations. Therefore, **no additional custom code** is specifically provided in a dedicated folder for this part.
 
 Each sub-folder within this repository contains its own, detailed `README.md` file, providing in-depth information about that specific component and its setup.
