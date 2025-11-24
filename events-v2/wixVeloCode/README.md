@@ -69,7 +69,7 @@ For this step find the code logic here:
 **CONS** 👎
 
 - More code is needed to be written.
-- Those who _do_ have a phone number would **still need to be gathered** inside a Wix CMS table, and again, additional n8n logic would be required to retrieve that data and place it inside a Google Sheets table.
+- Those who _do_ have a phone number would **still need to be gathered** inside a Wix CMS table. Additional n8n logic would then be required to retrieve that data and place it inside a Google Sheets table — or alternatively, a new action could be added to the false branch of the conditional check to update the Google Sheets table with existing phone numbers.
 
 ---
 

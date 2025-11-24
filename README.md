@@ -1,6 +1,8 @@
 # From Manual Chaos to Modular Automation: Building a Scalable n8n Workflow for a Foundation 🚀
 
-This repository **showcases the evolution of an n8n workflow** designed to transform a nonprofit's manual, Excel-based operations into a streamlined, automated system. It provides the microservices and Wix Velo backend code discussed in a three-part article series published on Medium.
+This repository **showcases the evolution of an n8n workflow** designed to transform a nonprofit's manual, Excel-based operations into a streamlined, automated system.  
+It includes the microservices and Wix Velo backend code discussed in the **Medium 3-part article series**:  
+👉 **[From Manual Chaos to Modular Automation](https://medium.com/@beataspace)**
 
 ## 📚 Series Overview
 
