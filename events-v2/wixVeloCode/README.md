@@ -1,4 +1,4 @@
-# Using Backend Logic in Wix Automations ⚙️
+# Using Backend Logic in Wix Automations
 
 Wix Automations includes built-in actions such as **Run Velo Code** and **Send HTTP request**, each with its own intended purpose and limitations.
 
@@ -10,35 +10,39 @@ To work around the return-value limitation of **Run Velo Code**, I exposed my ba
 
 This is not the originally intended use of **Send HTTP request**, but it’s an effective and safe _workaround_ when you need to feed dynamic, backend-generated data into a Wix Automation.
 
-## 📅 Wix Events - Event Form
+<br>
+
+## Wix Events - Event Form
 
 When the event reaches capacity, the **Registration Form** is automatically replaced by a built-in **Waitlist Form** — which only collects `First Name`, `Last Name`, and `Email`.
 
 **Submission of Phone Numbers**  
 The foundation has its own way of determining who will be accepted from the waitlist members, and in some cases, the simplest way to reach out to these applicants is to make a phone call. That is why the phone number is requested from the waitlist participants.
 
-## 📊 Wix Automation Scenarios
+<br>
+
+## Wix Automation Scenarios
 
 ### CASE_1a: Run Velo Code (Initial Approach)
 
 ![Wix Automation with Run Velo Code Action (v1)](/events-v2/assets/wix-automation-run-velo-code-v1.png)
 
-#### ✅ 1. Run Velo Code Action
+#### 1. Run Velo Code Action
 
 For this step find the code logic here:  
 [./wixAutomationCase1a/runVeloCodeAutomationAction.js](./wixAutomationCase1a/runVeloCodeAutomationAction.js)
 
-#### ✅ 2. Wix Backend Code
+#### 2. Wix Backend Code
 
 For this step find the code logic here:  
 [./wixAutomationCase1a/runVeloCodeBackend.web.js](./wixAutomationCase1a/runVeloCodeBackend.web.js)
 
-**PROS** 👍
+**PROS**
 
 - It is the **suggested use** of the `Run Velo Code` action within **Wix Automation**.
 - It would send a **Triggered Email** from the backend to those who are missing a phone number within **Wix Contacts**.
 
-**CONS** 👎
+**CONS**
 
 - To send a **Triggered Email**, the contact should already be **Subscribed to marketing emails**, which is not guaranteed.
 - Those who _do_ have a phone number would still need to be gathered into a Wix CMS table, and **additional n8n logic** would be required to retrieve that data and place it inside a Google Sheets table.
@@ -51,22 +55,22 @@ Still using the `Run Velo Code` action element within **Wix Automation**, but to
 
 ![Wix Automation with Run Velo Code Action (v2)](/events-v2/assets/wix-automation-run-velo-code-v2.png)
 
-#### ✅ 1. Run Velo Code Action
+#### 1. Run Velo Code Action
 
 For this step find the code logic here:  
 [./wixAutomationCase1b/runVeloCodevAutomationAction.js](./wixAutomationCase1b/runVeloCodeAutomationAction.js)
 
-#### ✅ 2. Wix Backend Code
+#### 2. Wix Backend Code
 
 For this step find the code logic here:  
 [./wixAutomationCase1b/runVeloCodeBackend.web.js](./wixAutomationCase1b/runVeloCodeBackend.web.js)
 
-**PROS** 👍
+**PROS**
 
 - It is the **suggested use** of the `Run Velo Code` action within **Wix Automation**.
 - It **bypasses the 'Subscribe to marketing emails' requirement** for Triggered Emails by allowing emails to be sent directly from the Wix Automation.
 
-**CONS** 👎
+**CONS**
 
 - More code is needed to be written.
 - Those who _do_ have a phone number would **still need to be gathered** inside a Wix CMS table. Additional n8n logic would then be required to retrieve that data and place it inside a Google Sheets table — or alternatively, a new action could be added to the false branch of the conditional check to update the Google Sheets table with existing phone numbers.
@@ -79,7 +83,7 @@ This approach leverages the `Send HTTP request` action to overcome the limitatio
 
 ![Wix Automation with Send HTTP request Action](/events-v2/assets/wix-automation-send-http-request.png)
 
-#### ✅ 1. Send HTTP request
+#### 1. Send HTTP request
 
 Set up this action element within Wix Automation.
 
@@ -103,7 +107,7 @@ This action is designed to send data to an external system using an HTTP POST re
   }
   ```
 
-📝 **NOTES**
+**NOTES**
 
 - **Why the `secretKey` is Hard-Coded**:
   In the Send HTTP request action of Wix Automations, the `secretKey` is hard-coded because the interface doesn't support dynamically generating a JSON Web Token (JWT) or any secure token on the fly. The request body is limited to predefined input fields, which makes runtime signing or encryption impossible within the automation itself.
@@ -117,28 +121,30 @@ This action is designed to send data to an external system using an HTTP POST re
 
 ➕ Need a random `secretKey`? Use [random.org/strings](https://www.random.org/strings/) to generate one.
 
-#### ✅ 2. Wix Backend Code
+#### 2. Wix Backend Code
 
 For this step find the code logic here:  
 [./wixAutomationCase2/post_findRsvpContactById.js](./wixAutomationCase2/post_findRsvpContactById.js)
 
-📝 **NOTES**  
+**NOTES**  
 Important note on **Wix Secrets Manager**:
 
 - **Storage Format:** Secrets in Wix are returned as a **JSON** object, for example: `{"value":"your-actual-secret-key"}`.
 - **Code Retrieval:** The Velo code specifically accesses the `.value` property to extract the raw secret string for comparison.
 
-**PROS** 👍
+**PROS**
 
 - This workaround allows **dynamic values to be returned** from Velo backend code to the Wix Automation flow, which is not possible with `Run Velo Code`.
 - Those who have a phone number **can be directly added to the Google Sheets table** using the returned data, simplifying the overall workflow.
 
-**CONS** 👎
+**CONS**
 
 - More backend code is needed to implement the HTTP function and its authorization.
 - The `secretKey` is hard-coded, which is a **less secure** approach compared to dynamically generated JWTs (as explored in Part 3 of the series).
 
-## ⚠️ A Note on Code Examples and Debugging
+<br>
+
+## A Note on Code Examples and Debugging
 
 You may notice that the code examples—both in Wix Automations and the backend HTTP functions—include numerous `console.log` statements.
 
