@@ -1,10 +1,10 @@
-# From Manual Chaos to Modular Automation: Building a Scalable n8n Workflow for a Foundation 🚀
+# From Manual Chaos to Modular Automation: Building a Scalable n8n Workflow for a Foundation
 
 This repository **showcases the evolution of an n8n workflow** designed to transform a nonprofit's manual, Excel-based operations into a streamlined, automated system.  
 It includes the microservices and Wix Velo backend code discussed in the **Medium 3-part article series**:  
-👉 **[From Manual Chaos to Modular Automation](https://medium.com/@beataspace)**
+**[From Manual Chaos to Modular Automation](https://medium.com/@beataspace/from-manual-chaos-to-modular-automation-building-a-scalable-n8n-workflow-for-a-foundation-f4d9f959e00f)**
 
-## 📚 Series Overview
+## Series Overview
 
 This project chronicles a journey through different stages of automation, each building upon the last to achieve greater efficiency and control.
 
@@ -20,7 +20,7 @@ The n8n workflow was extended to handle more logic branches and conditions, sign
 
 Where Wix Automations originally handled the form data transfer to Google Sheets, this part introduces a custom Python script to fetch data directly from the Wix backend. This reduced the number of required Wix Automations and gave us more control and flexibility.
 
-## 📂 Repo Overview
+## Repo Overview
 
 ```bash
 .

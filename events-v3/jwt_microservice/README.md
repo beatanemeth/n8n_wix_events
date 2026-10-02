@@ -1,52 +1,54 @@
-# FastAPI JWT Generator 🔐
+# FastAPI JWT Generator
 
 This repository contains a simple FastAPI application designed to generate **JSON Web Tokens** (JWTs) for specific purposes, primarily for secure integration with **n8n workflows**.
 
-## 🛠️ Technical Details
+## Technical Details
 
 This **FastAPI/Python script** is built to be easily deployable as a **Docker** container and provides dedicated endpoints to generate JWTs using pre-configured secrets. It's intended to be called by an n8n workflow that requires JWT-based authentication for downstream services.
 
-### 📦 Prerequisites
+### Prerequisites
 
 - **[Docker Desktop](https://docs.docker.com/get-docker/)**: For containerizing and running the application.
 - **n8n**: [Installed locally with Docker](https://docs.n8n.io/hosting/installation/docker/).
 - **Python 3.x**: (Optional, for local development/testing outside Docker)
 - **Secret Keys**: You'll need pre-shared secret keys for JWT signing, which will be stored in your `.env` file.
 
-### 🖥️ Operating System Used
+### Operating System Used
 
 - Linux Mint 21.2
 
-## 🔄 How Does it Work?
+<br>
+
+## How Does it Work?
 
 This FastAPI application exposes two distinct API endpoints, each configured to generate a JWT using a specific secret key:
 
-1. **Loads Environment Variables** 🔒: Upon startup, the application securely loads JWT secret keys (`EVENT_GUESTS_JWT_SECRET`, `GUEST_PHONE_JWT_SECRET` and `UPDATE_CONTACT_JWT_SECRET`) from a `.env` file. This is crucial for keeping your sensitive secrets out of the codebase.
+1. **Loads Environment Variables**: Upon startup, the application securely loads JWT secret keys (`EVENT_GUESTS_JWT_SECRET`, `GUEST_PHONE_JWT_SECRET` and `UPDATE_CONTACT_JWT_SECRET`) from a `.env` file. This is crucial for keeping your sensitive secrets out of the codebase.
 
-2. **JWT Generation Logic** ✨: The core logic for JWT generation is encapsulated in the `generate_n8n_jwt` function:
-
+2. **JWT Generation Logic**: The core logic for JWT generation is encapsulated in the `generate_n8n_jwt` function:
    - It creates a standard JWT payload including `sub` (subject), `iat` (issued at time), and `exp` (expiration time). The default expiration is 15 minutes (900 seconds) to ensure tokens are short-lived for security.
 
    - It uses the `HS256` (HMAC-SHA256) algorithm to sign the token with the provided `secretKey`.
 
      ➕ Need a random `secretKey`? Use [random.org/strings](https://www.random.org/strings/) to generate one.
 
-3. **Dedicated Endpoints** 🔗:
-
+3. **Dedicated Endpoints**:
    - `GET /generate-jwt/eventGuests`: When this endpoint is called, it generates a JWT using the `EVENT_GUESTS_JWT_SECRET`.
 
    - `GET /generate-jwt/guestPhone`: This endpoint generates a JWT using the `GUEST_PHONE_JWT_SECRET`.
    - `GET /generate-jwt/updateContact`: This endpoint generates a JWT using the `UPDATE_CONTACT_JWT_SECRET`
 
-4. **Returns JWT** ✅: Each endpoint returns a JSON object containing the newly generated JWT.
+4. **Returns JWT**: Each endpoint returns a JSON object containing the newly generated JWT.
 
 This setup is ideal for scenarios where your n8n workflows need to interact with external APIs or services that require JWT authentication. By centralizing JWT generation in this microservice, you keep your secret keys secure and provide a simple, callable endpoint for your workflows.
 
-## 🏁 Getting Started
+<br>
+
+## Getting Started
 
 Follow these steps to set up and run the FastAPI JWT Generator.
 
-### 📝 Configuration
+### Configuration
 
 1.  **Create a `.env` file**:  
     In the root directory of this project (`/jwt_microservice`), rename the `.env.example` to `.env`.
@@ -62,11 +64,11 @@ Follow these steps to set up and run the FastAPI JWT Generator.
     - **Important**: Replace the placeholder values with your actual, unique secret keys.
     - **Security Tip**: Never commit your `.env` file to version control.
 
-### 🐳 Running FastAPI/Python script with Docker
+### Running FastAPI/Python script with Docker
 
 This is the recommended way to run the application for production or integration with n8n.
 
-#### ✅ 1. Build the Docker Image
+#### 1. Build the Docker Image
 
 In your terminal, navigate to your project root (where your `Dockerfile` and `.env` are located) and run the following command to build the Docker image:
 
@@ -74,7 +76,7 @@ In your terminal, navigate to your project root (where your `Dockerfile` and `.e
 docker build -t fastapi-jwt-service .
 ```
 
-#### ✅ 2. Run the Docker Container
+#### 2. Run the Docker Container
 
 Still in your project root, run the following command to start the Docker container:
 
@@ -94,11 +96,11 @@ This command does the following:
 
 Once the container is running, the FastAPI application will be accessible.
 
-#### ✅ 3. Test Your Local API
+#### 3. Test Your Local API
 
 You can test the running API endpoints using curl or by configuring an n8n HTTP node.
 
-- 💻 With `curl`  
+- With `curl`  
   Open another terminal and use `curl` to send a GET request to an endpoint:
 
 ```Bash
@@ -119,7 +121,7 @@ You should receive a JSON response containing the generated JWT:
 {"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."}
 ```
 
-- 📡 With **n8n HTTP node**  
+- With **n8n HTTP node**  
   If you're integrating with **n8n**, configure an **HTTP Request node** with one of the following `URLs`:
 
 [http://host.docker.internal:8000/generate-jwt/eventGuests](http://host.docker.internal:8000/generate-jwt/eventGuests)
@@ -130,9 +132,9 @@ You should receive a JSON response containing the generated JWT:
 
 This `URL` is crucial for inter-container communication in **Docker** environments.
 
-### 🐳 Running n8n with Docker
+### Running n8n with Docker
 
-#### ✅ Run the Docker Container
+#### Run the Docker Container
 
 Open another terminal and run the following command to start your **n8n** instance:
 
@@ -140,9 +142,11 @@ Open another terminal and run the following command to start your **n8n** instan
 docker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
 ```
 
-## 🧠 Explanations
+<br>
 
-### 💡 Why `docker run` and Not `docker-compose`?
+## Explanations
+
+### Why `docker run` and Not `docker-compose`?
 
 You might notice that the **FastAPI** service and **n8n** instance are started using individual `docker run` commands instead of being managed by `docker-compose`. This is a valid and often preferred approach for simpler setups or when services don't share a lifecycle.
 
@@ -152,7 +156,7 @@ You might notice that the **FastAPI** service and **n8n** instance are started u
 
 In this setup, **FastAPI** and **n8n** are deployed independently and communicate over the **host network**. That’s why `host.docker.internal` is used.
 
-### 🌐 Understanding `http://host.docker.internal` for n8n
+### Understanding `http://host.docker.internal` for n8n
 
 When running multiple containers on the same host, they need a way to communicate. Using `localhost` inside a container doesn’t point to the host machine—it refers to the container itself.
 
@@ -164,7 +168,7 @@ _Example_: A request from **n8n** to `http://host.docker.internal:8000` reaches 
 
 This setup works well for lightweight, decoupled containers when you don’t want to set up a shared **Docker** network or use `docker-compose`.
 
-### 📚 Related Concepts
+### Related Concepts
 
 This project illustrates several important technologies:
 
@@ -176,7 +180,7 @@ This project illustrates several important technologies:
 
 - **n8n**: A low-code automation tool that connects services, syncs data, and automates workflows through a visual interface.
 
-### 🔐 Security Considerations
+### Security Considerations
 
 - **Secret Management**: Never hardcode your JWT secrets directly in your codebase. Instead, store them in environment variables (as done in this project) and manage them securely—using Docker Secrets, Kubernetes Secrets, or a dedicated secrets manager in production environments.
 
@@ -184,7 +188,9 @@ This project illustrates several important technologies:
 
 - **Algorithm**: This setup uses `HS256`, a symmetric algorithm where the same secret is used for both signing and verification. Be sure this secret is never exposed client-side. For more advanced scenarios—such as third-party token validation or distributed systems—consider using an asymmetric algorithm like `RS256`.
 
-## ⚠️ A Note on Code Examples and Debugging
+<br>
+
+## A Note on Code Examples and Debugging
 
 The code examples throughout this project intentionally include numerous `console.log` statements.
 
